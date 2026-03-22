@@ -1,10 +1,20 @@
 from mine_field import Game
 
 # Поле 9х9, 10 мин
-game = Game(5, 5, 3)
+game = Game(9, 9, 10)
 
 # Отрисовка поля
 def print_field(game):
+    # Цвета для символов в консоли
+    colors = {
+        1: '\033[32m',   # зеленый
+        2: '\033[34m',   # синий
+        3: '\033[35m',   # фиолетовый
+        4: '\033[31m',   # красный
+        5: '\033[31m', 6: '\033[31m', 7: '\033[31m', 8: '\033[31m'
+        } 
+    reset = '\033[0m'
+
     print('Варианты действия: 1 - открыть ячейку, 2 - поставить флаг')
     print('   ', end = ' ')
     # Номера колонок
@@ -16,11 +26,16 @@ def print_field(game):
         print(f'{row + 1}  ', end = ' ')
         for col in range(game.cols):
             if game.flags[row][col]: 
-                print('F', end = ' ') # флаг
+                print('\033[33mF\033[0m', end = ' ') # флаг
             elif not game.player_field[row][col]:
                 print('#', end = ' ') # закрытая
             elif game.player_field[row][col]:
-                print(game.hidden_field[row][col], end = ' ') # открытие
+                value = game.hidden_field[row][col]
+                color = colors.get(value, reset)
+                if value == 0:
+                    print(' ', end = ' ') # не печатаем нули
+                else:
+                    print(f'{color}{value}{reset}', end = ' ') # открытие
             
         print() 
 
