@@ -56,11 +56,12 @@ class Game:
     
 
     # Проверка победы
-    # Если не осталось # кроме мин, игра окончена
+    # Если не осталось закрытых кроме мин, игра окончена
     def check_win(self):
         for row in range(self.rows):
             for col in range(self.cols):
-                if self.hidden_field[row][col] != -1 and not self.player_field[row][col]:
+                if (self.hidden_field[row][col] != -1 and not self.player_field[row][col]): 
+              #  or \ (self.hidden_field[row][col] == -1 and not self.flags[row][col]):
                     return False
         return True
     

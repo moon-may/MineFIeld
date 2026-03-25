@@ -1,7 +1,7 @@
 from mine_field import Game
 
 # Поле 9х9, 10 мин
-game = Game(9, 9, 10)
+game = Game(3, 3, 1)
 
 # Отрисовка поля
 def print_field(game):
@@ -78,13 +78,13 @@ def main(game):
             if result == 'INVALID_COORDS':
                 print('Введены неверные координаты!')
                 continue
-            if result == 'HAS_FLAG':
+            elif result == 'HAS_FLAG':
                 print('Там стоит флаг! Убери флаг или выбери другую ячейку')
                 continue
-            if result == 'ALREADY_OPEN':
+            elif result == 'ALREADY_OPEN':
                 print('Эта клетка уже открыта, выбери другую')
                 continue
-            if result == 'MINE':
+            elif result == 'MINE':
                 print('БАБАХ!')
                 # При проигрыше покаывам поле целиком
                 print('   ', end = ' ')
@@ -100,7 +100,9 @@ def main(game):
                         else:
                             print(val, end = ' ')
                     print()
-                continue
+                break
+            elif game.game_over and result == 'OK':
+                print('Победа!')
         
         # Обработка смены флага
         if action == 2:
