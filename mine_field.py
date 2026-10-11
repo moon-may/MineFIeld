@@ -61,7 +61,6 @@ class Game:
         for row in range(self.rows):
             for col in range(self.cols):
                 if (self.hidden_field[row][col] != -1 and not self.player_field[row][col]): 
-              #  or \ (self.hidden_field[row][col] == -1 and not self.flags[row][col]):
                     return False
         return True
     
