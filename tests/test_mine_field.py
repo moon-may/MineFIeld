@@ -36,3 +36,43 @@ def test_neighbors_content_center():
     assert set(game.neighbors(2, 2)) == {
         (1, 1), (1, 2), (1, 3), (2, 1), (2, 3), (3, 1), (3, 2), (3, 3)
     }
+
+
+def test_flag():
+    '''
+    Проверяет установку флага на начальном поле
+    '''
+    game = Game(3, 3, 1)
+    game.toggle_flag(1, 1)
+    assert game.flags[1][1] is True
+
+
+def test_flag_on_open_cell():
+    '''
+    Проверяет установку флага на открытую клетку. Флаг не должен установиться. 
+    '''
+    game = Game(3, 3, 0)
+    game.player_field[1][0] = True
+    game.toggle_flag(1, 0)
+    assert game.flags[1][0] is False
+
+
+def test_flag_on_mine():
+    '''
+    Проверяет установку флага на поле с миной
+    '''
+    game = Game(3, 3, 0)
+    game.hidden_field[1][1] = -1
+    game.toggle_flag(1, 1)
+    assert game.flags[1][1] is True
+
+
+def test_toggle_flag():
+    '''
+    Проверяет корректность снятия флага
+    '''
+    game = Game(3, 3, 1)
+    game.toggle_flag(1, 1)
+    assert game.flags[1][1] is True
+    game.toggle_flag(1, 1)
+    assert game.flags[1][1] is False
