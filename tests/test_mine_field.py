@@ -114,3 +114,74 @@ def test_check_win_negative():
                          [True, True, True],
                          [False, True, True]]
     assert game.check_win() is False
+
+
+@pytest.mark.parametrize('row, col', [
+    pytest.param(10, 1, id='rows_out_of_bounds'), 
+    pytest.param(-5, 0, id='negative_coords'), 
+    pytest.param(1, 10, id='cols_out_of_bounds'), 
+    pytest.param(0, 9, id='boundary_values')
+])
+def test_invalid_coords(row, col):
+    '''
+    Проверяет поведение open_cell при заведомо неверных координатах
+    '''
+    game = Game(9, 9, 10)
+    assert game.open_cell(row, col) == 'INVALID_COORDS'
+
+
+def test_has_flag():
+    '''
+    Проверяет поведение open_cell при попытке открыть клетку, отмеченную флагом
+    '''
+    game = Game(9, 9, 10)
+    game.flags[7][2] = True
+    assert game.open_cell(7, 2) == 'HAS_FLAG'
+    assert game.player_field[7][2] is False 
+
+
+def test_already_open():
+    '''
+    Проверяет поведение open_cell при попытке открыть уже открытую клетку
+    '''
+    game = Game(9, 9, 10)
+    game.player_field[5][5] = True
+    assert game.open_cell(5, 5) == 'ALREADY_OPEN'
+
+
+def test_is_mine():
+    '''
+    Проверяет поведение open_cell при открытии мины
+    '''
+    game = Game(9, 9, 10)
+    game.hidden_field[5][5] = -1
+    assert game.open_cell(5, 5) == 'MINE'
+    assert game.game_over is True
+
+
+def test_open_cell():
+    '''
+    Проверяет поведение open_cell при идеальном сценарии
+    '''
+    game = Game(9, 9, 0)
+    assert game.open_cell(7, 5) == 'OK'
+    assert game.player_field[7][5] is True 
+
+
+def test_open_zero():
+    '''
+    Проверяет поведение open_cell при открытии нуля
+    '''
+    game = Game(5, 5, 3)
+    game.hidden_field = [[1, 2, -1, 1, 0], 
+                          [1, -1, 2, 1, 0], 
+                          [1, 1, 1, 0, 0], 
+                          [0, 0, 1, 1, 1], 
+                          [0, 0, 1, -1, 1]]
+    expected = [[False, False, False, True, True],
+                [False, False, True, True, True],
+                [False, False, True, True, True],
+                [False, False, True, True, True],
+                [False, False, False, False, False]]
+    game.open_cell(2, 4)
+    assert game.player_field == expected
