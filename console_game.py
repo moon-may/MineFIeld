@@ -1,7 +1,7 @@
 from mine_field import Game
 
 # Поле 9х9, 10 мин
-game = Game(3, 3, 1)
+game = Game(9, 9, 10)
 
 # Отрисовка поля
 def print_field(game):
