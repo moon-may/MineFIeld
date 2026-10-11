@@ -76,3 +76,13 @@ def test_toggle_flag():
     assert game.flags[1][1] is True
     game.toggle_flag(1, 1)
     assert game.flags[1][1] is False
+
+
+def test_flag_on_bounds():
+    '''
+    Проверяет устойчивость к некорректным данным. Флаг не должен появиться в другом месте. 
+    '''
+    game = Game(3, 3, 0)
+    game.toggle_flag(10, 10)
+    game.toggle_flag(-1, -1)
+    assert sum(sum(row) for row in game.flags) == 0
