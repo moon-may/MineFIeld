@@ -86,3 +86,31 @@ def test_flag_on_bounds():
     game.toggle_flag(10, 10)
     game.toggle_flag(-1, -1)
     assert sum(sum(row) for row in game.flags) == 0
+
+
+def test_check_win():
+    '''
+    Проверяет работу чек-бокса победы, когда открыты все клетки кроме клеток с минами
+    '''
+    game = Game(3, 3, 1)
+    game.hidden_field = [[1, -1, 1],
+                         [1, 1, 1],
+                         [0, 0, 0]]
+    game.player_field = [[True, False, True],
+                         [True, True, True],
+                         [True, True, True]]
+    assert game.check_win()
+
+
+def test_check_win_negative():
+    '''
+    Проверяет работу чек-бокса победы, когда открыты не все безопасные клетки
+    '''
+    game = Game(3, 3, 1)
+    game.hidden_field = [[1, -1, 1],
+                         [1, 1, 1],                             
+                         [0, 0, 0]]
+    game.player_field = [[True, False, True],
+                         [True, True, True],
+                         [False, True, True]]
+    assert game.check_win() is False
