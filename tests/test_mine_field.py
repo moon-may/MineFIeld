@@ -2,14 +2,13 @@ import pytest
 from mine_field import Game
 
 @pytest.mark.parametrize('cols, rows, row, col, expected', [
-                             (3, 3, 1, 1, 8),
-                             (3, 3, 0, 0, 3),
-                             (3, 3, 2, 1, 5),
-                             (5, 5, 2, 2, 8),
-                             (5, 5, 1, 1, 8),
-                             (5, 5, 4, 2, 5),
-                             (5, 5, 4, 4, 3),
-                             (1, 1, 0, 0, 0),
+                             pytest.param(3, 3, 1, 1, 8, id='3x3_center'),
+                             pytest.param(3, 3, 0, 0, 3, id='3x3_corner'),
+                             pytest.param(3, 3, 2, 1, 5, id='3x3_edge'),
+                             pytest.param(5, 5, 2, 2, 8, id='5x5_center'),
+                             pytest.param(5, 5, 4, 2, 5, id='5x5_edge'),
+                             pytest.param(5, 5, 4, 4, 3, id='5x5_corner'),
+                             pytest.param(1, 1, 0, 0, 0, id='1x1'),
                          ])
 def test_neighbors_count(cols, rows, row, col, expected):
     '''
