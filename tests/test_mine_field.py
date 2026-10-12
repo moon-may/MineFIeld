@@ -185,3 +185,34 @@ def test_open_zero():
                 [False, False, False, False, False]]
     game.open_cell(2, 4)
     assert game.player_field == expected
+
+
+def test_mines_counter():
+    '''
+    Проверяет корректность числа мин на поле
+    '''
+    game = Game(5, 5, 3)
+    mines_count = 0
+    for row in game.hidden_field:
+        for cell in row:
+            if cell == -1:
+                mines_count += 1
+    assert mines_count == 3
+
+
+def test_mines_neighbors():
+    '''
+    Проверяет корректность расчета соседей-мин
+    '''
+    game = Game(5, 5, 3)
+    for r in range(game.rows):
+        for c in range(game.cols):
+            if game.hidden_field[r][c] == -1:
+                continue
+            
+            expected = 0
+            for nr, nc in game.neighbors(r, c):
+                if game.hidden_field[nr][nc] == -1:
+                    expected += 1
+            
+            assert game.hidden_field[r][c] == expected
